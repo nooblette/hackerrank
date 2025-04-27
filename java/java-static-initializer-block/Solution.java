@@ -3,20 +3,27 @@ import java.io.*;
 import java.util.*;
 
 public class Solution {
-
-    public static void main(String[] args) {
+    private static int B;
+    private static int H;
+    private static boolean FLAG = true;
+    
+    // At class loading time, executed once
+    static {
         Scanner scanner = new Scanner(System.in);
-        int b;
-        int h;
         
-        b = scanner.nextInt();
-        h = scanner.nextInt();
+        B = scanner.nextInt();
+        H = scanner.nextInt();
         
-        if(b <= 0 || h <= 0) {
+        if(B <= 0 || H <= 0) {
             System.out.println("java.lang.Exception: Breadth and height must be positive");
-        } else {
-            System.out.println(b * h);
+            FLAG = false;
         }
+        
         scanner.close();
+    }
+    public static void main(String[] args) {
+        if(FLAG) {
+            System.out.println(B * H);
+        }
     }
 }
