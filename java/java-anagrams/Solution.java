@@ -7,13 +7,24 @@ public class Solution {
         if(a.length() != b.length()) {
             return false;
         }
-        char[] aArray = a.toUpperCase().toCharArray();
-        char[] bArray = b.toUpperCase().toCharArray();
         
-        Arrays.sort(aArray);
-        Arrays.sort(bArray);
+        a = a.toLowerCase();
+        b = b.toLowerCase();
         
-        return Arrays.equals(aArray, bArray);
+        // frequency array, index based ascii code
+        int[] freqs = new int[26];
+        for(int i = 0; i < a.length(); i++) {
+            freqs[a.charAt(i) - 'a']++;
+            freqs[b.charAt(i) - 'a']--;
+        }
+        
+        for(int i = 0; i < freqs.length; i++) {
+            if(freqs[i] != 0) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     public static void main(String[] args) {
