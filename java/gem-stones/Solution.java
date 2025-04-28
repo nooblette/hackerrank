@@ -13,26 +13,22 @@ import static java.util.stream.Collectors.toList;
 
 class Result {
     public static int gemstones(List<String> arr) {
-        int n = arr.size();
-        int[] freq = new int[26];
-        
-        for(String str : arr) {
-            boolean[] present = new boolean[26];
-            for(char c : str.toCharArray()) {
-                if(present[c - 'a']) continue;
-                present[c - 'a'] = true;
-                freq[c - 'a']++;
+        Set<Character> common = arr.get(0).chars()
+            .mapToObj(c -> (char)c)
+            .collect(Collectors.toSet());
+            
+        for(int i = 1; i < arr.size(); i++) {
+            Set<Character> thisRock = arr.get(i).chars()
+                .mapToObj(c -> (char)c)
+                .collect(Collectors.toSet());
+                
+            common.retainAll(thisRock);
+            if(common.size() == 0) {
+                return 0;
             }
         }
         
-        int answer = 0;
-        for(int i = 0; i < 26; i++) {
-            if(freq[i] == n) {
-                answer++;
-            }
-        }
-        
-        return answer;
+        return common.size();
     }
 
 }
