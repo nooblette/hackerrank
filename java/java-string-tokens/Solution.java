@@ -9,7 +9,7 @@ public class Solution {
         String s = scanner.nextLine().trim();
         scanner.close();
         
-        String[] tokens = s.split("[ !,?._'@]+");
+        String[] tokens = s.split("[^A-Za-z]+");
         if(s.isEmpty()) {
             System.out.println(0);
         } else {
