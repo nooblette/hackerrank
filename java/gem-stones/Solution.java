@@ -13,22 +13,24 @@ import static java.util.stream.Collectors.toList;
 
 class Result {
     public static int gemstones(List<String> arr) {
-        Set<Character> common = arr.get(0).chars()
-            .mapToObj(c -> (char)c)
-            .collect(Collectors.toSet());
-            
+        int mask = 0;
+        for(char c : arr.get(0).toCharArray()) {
+            mask |= 1 << (c - 'a');
+        }
+        
         for(int i = 1; i < arr.size(); i++) {
-            Set<Character> thisRock = arr.get(i).chars()
-                .mapToObj(c -> (char)c)
-                .collect(Collectors.toSet());
-                
-            common.retainAll(thisRock);
-            if(common.size() == 0) {
+            int thisMask = 0;
+            for(char c : arr.get(i).toCharArray()) {
+                thisMask |= 1 << (c - 'a');
+            }
+            
+            mask &= thisMask;
+            if(mask == 0) {
                 return 0;
             }
         }
         
-        return common.size();
+        return Integer.bitCount(mask);
     }
 
 }
