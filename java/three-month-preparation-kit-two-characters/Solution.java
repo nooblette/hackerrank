@@ -13,49 +13,39 @@ import static java.util.stream.Collectors.toList;
 
 class Result {
     public static int alternate(String s) {
-        boolean[] present = new boolean[26];
+        Set<Character> alpSet = new HashSet<>();
         for(char c : s.toCharArray()) {
-            present[c - 'a'] = true;
+            alpSet.add(c);
         }
         
-        List<Character> chars = new ArrayList<>();
-        for(int i = 0; i < 26; i++) {
-            if(present[i]) {
-                chars.add((char) (i + 'a'));
-            }
-        }
+        List<Character> alpList = new ArrayList<>(
+            alpSet.stream()
+                .collect(Collectors.toList()));
         
-        int maxLen = 0;
-        for(int i = 0; i < chars.size(); i++) {
-            for(int j = i+1; j < chars.size(); j++) {
-                char c1 = chars.get(i);
-                char c2 = chars.get(j);
-                
+        int maxLen = 0;        
+        for(int i = 0; i < alpList.size(); i++) {
+            for(int j = i + 1; j < alpList.size(); j++) {
                 StringBuilder sb = new StringBuilder();
-                
-                for(char x : s.toCharArray()) {
-                    if(x == c1 || x == c2) {
-                        sb.append(x);
+                for(char c : s.toCharArray()) {
+                    if(c == alpList.get(i) || c == alpList.get(j)) {
+                        sb.append(c);
                     }
                 }
                 
-                if(sb.length() < 2) {
-                    continue;
-                }
-                
-                boolean valid = true;
-                for (int k = 1; k < sb.length(); k++) {
-                    if (sb.charAt(k) == sb.charAt(k - 1)) {
-                        valid = false;
+                if(sb.length() < 2) continue;
+                    
+                boolean isValid = true;
+                for(int k = 1; k < sb.length(); k++) {
+                    if(sb.charAt(k-1) == sb.charAt(k)) {                            
+                        isValid = false;
                         break;
                     }
                 }
-                
-                if(valid) {
-                    maxLen = Math.max(maxLen, sb.length());                    
-                }
+                    
+                if(isValid) maxLen = Math.max(maxLen, sb.length());
             }
         }
+
         return maxLen;
     }
 }
@@ -78,3 +68,4 @@ public class Solution {
         bufferedWriter.close();
     }
 }
+
